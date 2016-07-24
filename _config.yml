@@ -1,6 +1,6 @@
 # Site settings
-title: Your awesome title
-email: your-email@domain.com
+title: Oracle
+email: askcoye@gmial.com
 baseurl: "/Cloud" # the subpath of your site, e.g. /blog
 #url: "http://yourdomain.com" # the base hostname & protocol for your site
 
@@ -8,11 +8,11 @@ baseurl: "/Cloud" # the subpath of your site, e.g. /blog
 description: Hello World !
 
 # Social icons
-facebook: username
-linkedin: username
-github: username
-deviantart: username
-codepen: username
+#facebook: username
+#linkedin: username
+github: askcoye@gmial.com
+#deviantart: username
+#codepen: username
 
 footer: © Taken theme
 
