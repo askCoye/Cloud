@@ -1,7 +1,7 @@
 # Site settings
 title: Oracle
 email: your-email@domain.com
-baseurl: "/Cloud" # the subpath of your site, e.g. /blog
+baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://askcoye.github.io" # the base hostname & protocol for your site
 
 # Sidebar settings
