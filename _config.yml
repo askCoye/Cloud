@@ -2,7 +2,7 @@
 title: Oracle
 email: your-email@domain.com
 baseurl: "/Cloud" # the subpath of your site, e.g. /blog
-url: "https://askcoye.github.io" # the base hostname & protocol for your site
+#url: "" # the base hostname & protocol for your site
 
 # Sidebar settings
 description: One sentence introducing yourself or what you do
