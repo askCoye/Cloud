@@ -7,4 +7,4 @@ categories: CloudsPictures
 ---
 
 
-![](http://i.imgur.com/wjZ6NRX.jpg)
+![](https://askcoye.github.io/Cloud/images/cloudspictures/IMG_1697.JPG)
