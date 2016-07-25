@@ -13,7 +13,8 @@ oracle 官方文档 -> Oracle Database Administrator's Guide -> Creating and Con
 
 2. 指定SID（Instance Identifier）
 
-    	export ORACLE_SID=OCM
+  
+		export ORACLE_SID=OCM
 
 3. 确保必须的环境变量已经设置，大多数平台上 ORACLE_SID 和 ORACLE_HOME 必须设置
 		
