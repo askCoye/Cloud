@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Create the Database"
-date:   2016-07-24 07:48:57 +0800
+date:   2016-07-25 07:48:57 +0800
 comments: true
 categories: Server_Configuration
 ---
@@ -60,7 +60,7 @@ categories: Server_Configuration
 
 18. 一旦安装完成 -> 点击 “Exit”
 
-19. 我们不仅处于在ARCHIVELOG模式下数据库中，我们趁机也激活闪回。 闪回模式允许我们回BD更早的时刻。
+19. 我们不仅处于在ARCHIVELOG模式下数据库中，我们趁机也激活闪回。 闪回模式允许我们回到数据库的更早的时刻。
 
     	sqlplus / as sysdba
     	alter system set db_recovery_file_dest='/u01/app/oracle/flash_recovery_area' scope=spfile
