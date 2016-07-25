@@ -109,41 +109,42 @@ oracle 官方文档 -> Oracle Database Administrator's Guide -> Creating and Con
 		用 SYSTEM 用户执行
 		@?/sqlplus/admin/pupbld.sql
 
-至此数据库安装完毕
-查看数据库状态
+12. 至此数据库安装完毕
+ 
+	查看数据库状态
 
-		SQL> select open_mode from v$database;
+	    SQL> select open_mode from v$database;
+	    
+	    OPEN_MODE
+	    --------------------
+	    READ WRITE
+	    
+	    1 row selected.
 
-		OPEN_MODE
-		--------------------
-		READ WRITE
+	删除数据库
+
+		SQL> startup nomount;
+		ORACLE instance started.
 		
-		1 row selected.
-
-删除数据库
-
-	SQL> startup nomount;
-	ORACLE instance started.
+		Total System Global Area 1068937216 bytes
+		Fixed Size                  2235208 bytes
+		Variable Size             620758200 bytes
+		Database Buffers          440401920 bytes
+		Redo Buffers                5541888 bytes
+		SQL> alter database mount exclusive;
 	
-	Total System Global Area 1068937216 bytes
-	Fixed Size                  2235208 bytes
-	Variable Size             620758200 bytes
-	Database Buffers          440401920 bytes
-	Redo Buffers                5541888 bytes
-	SQL> alter database mount exclusive;
-
-	Database altered.
-	
-	SQL> alter system enable restricted session;
-	
-	System altered.
-	
-	SQL> drop database;
-	
-	Database dropped.
-	
-	Disconnected from Oracle Database 11g Enterprise Edition Release 11.2.0.3.0 - 64bit Production
-	With the Partitioning, OLAP, Data Mining and Real Application Testing options
+		Database altered.
+		
+		SQL> alter system enable restricted session;
+		
+		System altered.
+		
+		SQL> drop database;
+		
+		Database dropped.
+		
+		Disconnected from Oracle Database 11g Enterprise Edition Release 11.2.0.3.0 - 64bit Production
+		With the Partitioning, OLAP, Data Mining and Real Application Testing options
 
 
 ## 通过DBCA创建数据库 ##
