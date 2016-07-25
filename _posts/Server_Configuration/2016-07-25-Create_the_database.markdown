@@ -153,6 +153,8 @@ oracle 官方文档 -> Oracle Database Administrator's Guide -> Creating and Con
 1. 登录oracle用户 
 
 2. 输入 dbca 进行安装
+		
+		过程略
 
 3. 打开闪回和归档。 闪回模式允许我们回到数据库的更早的时刻。
 
