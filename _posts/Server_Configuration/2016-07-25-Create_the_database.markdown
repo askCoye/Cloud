@@ -156,16 +156,18 @@ oracle 官方文档 -> Oracle Database Administrator's Guide -> Creating and Con
 
 3. 打开闪回和归档。 闪回模式允许我们回到数据库的更早的时刻。
 
-    	sqlplus / as sysdba
-    	alter system set db_recovery_file_dest='/u01/app/oracle/flash_recovery_area' scope=spfile
-    	alter system set db_recovery_file_desc_size=2G
-    	SHUTDOWN IMMEDIATE;
-    	STARTUP MOUNT;
-    	ALTER DATABASE ARCHIVELOG;
-    	ALTER DATABASE FLASHBACK ON;
-    	ALTER DATABASE OPEN;
+
+		sqlplus / as sysdba
+		alter system set db_recovery_file_dest='/u01/app/oracle/flash_recovery_area' scope=spfile
+		alter system set db_recovery_file_desc_size=2G
+		SHUTDOWN IMMEDIATE;
+		STARTUP MOUNT;
+		ALTER DATABASE ARCHIVELOG;
+		ALTER DATABASE FLASHBACK ON;
+		ALTER DATABASE OPEN;
 
 4. 检查设置
 
-    	sqlplus / as sysdba
-    	SELECT NAME, LOG_MODE, FLASHBACK_ON FROM V$DATABASE;
+
+		sqlplus / as sysdba
+		SELECT NAME, LOG_MODE, FLASHBACK_ON FROM V$DATABASE;
