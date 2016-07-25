@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Create the Database"
-date:   2016-07-25 07:48:57 +0800
+date:   2016-07-25 07:48:57 +0000
 comments: true
 categories: Server_Configuration
 ---
