@@ -18,3 +18,5 @@ footer: © Taken theme
 
 # Build settings
 markdown: kramdown
+
+timezone: TIMEZONE
