@@ -50,7 +50,7 @@ var disqus_config = function () {
     <!--var d = document, s = d.createElement('script');-->
     <!--s.src = '//askcoye.disqus.com/embed.js';-->
     <!--s.setAttribute('data-timestamp', +new Date());-->
-    <!--(document.getElementsByTagName('head')[0]|| document.getElementsByTagName('body')[0]).appendChild(s);-->
+    <!--(d.head || d.body).appendChild(s);-->
     var ds = document.createElement('script');
 	ds.type = 'text/javascript';ds.async = true;
 	ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//askcoye.disqus.com/embed.js';
