@@ -1,7 +1,7 @@
 ---
 layout: default
 ---
-<div>
+
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
@@ -34,8 +34,6 @@ layout: default
       <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
       <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
   {% endif %} -->
-
-</article>
 <div id="disqus_thread></div>
 <script>
 
@@ -54,14 +52,13 @@ var disqus_config = function () {
     <!--s.setAttribute('data-timestamp', +new Date());-->
     <!--(document.getElementsByTagName('head')[0]|| document.getElementsByTagName('body')[0]).appendChild(s);-->
     var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//askcoye.disqus.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	ds.type = 'text/javascript';ds.async = true;
+	ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//askcoye.disqus.com/embed.js';
+	ds.charset = 'UTF-8';
+	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
 		 
 })();
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-                                    
-</div>
+
+</article>
