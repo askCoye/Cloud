@@ -74,12 +74,14 @@ categories: Server_Configuration
 		
 	DB_NAME Initialization Parameter
 
-	DB_NAME must be set to a text string of no more than eight characters. During database creation, the name provided for DB_NAME is recorded in the data files, redo log files, and control file of the database. If during database instance startup the value of the DB_NAME parameter (in the parameter file) and the database name in the control file are different, the database does not start.
+		DB_NAME must be set to a text string of no more than eight characters. During database creation, the name provided for DB_NAME is recorded in the data files, redo log files, and control file of the database. If during database instance startup the value of the DB_NAME parameter (in the parameter file) and the database name in the control file are different, the database does not start.
 	
 	DB_DOMAIN Initialization Parameter
 
-	DB_DOMAIN is a text string that specifies the network domain where the database is created. If the database you are about to create will ever be part of a distributed database system, then give special attention to this initialization parameter before database creation. This parameter is optional.
+		DB_DOMAIN is a text string that specifies the network domain where the database is created. If the database you are about to create will ever be part of a distributed database system, then give special attention to this initialization parameter before database creation. This parameter is optional.
 	
+    --
+
 		查看db_name和db_domain的值
 		SQL> show parameter db_name
 		NAME				     				TYPE	 VALUE
@@ -102,10 +104,13 @@ categories: Server_Configuration
 
 	Fast Recovery Area是oracle DB存储并管理备份和恢复相关文件的位置。它与数据库中当前数据库文件（数据文件，控制文件和redo log）的位置不同。
 	
-		指定Fast Recovery Area 主要用到以下两个参数：
+	指定Fast Recovery Area 主要用到以下两个参数：
+
 		DB_RECOVERY_FILE_DEST: Location of the Fast Recovery Area. This can be a directory, file system, or 
 		Automatic Storage Management (Oracle ASM) disk group. It cannot be a raw file system.
-		在RAC环境中，这个位置必须在集群文件系统中，OracleASM磁盘组，或者通过NFS的共享目录
+
+	在RAC环境中，这个位置必须在集群文件系统中，OracleASM磁盘组，或者通过NFS的共享目录
+
 		DB_RECOVERY_FILE_DEST_SIZE: Specifies the maximum total bytes to be used by the Fast Recovery Area. This initialization parameter must be specified before DB_RECOVERY_FILE_DEST is enabled. 
 
 		
