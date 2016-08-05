@@ -147,4 +147,10 @@ categories: Server_Configuration
 
 5. 指定控制文件
 	
-	参数CONTROL_FILES定义控制文件的位置
+	参数文件中CONTROL_FILES定义一个或多个控制文件的名称和位置，在执行 CREATE DATABASE语句的时候，CONTROL_FILES后面列出的控制文件将会被创建。
+	
+	如果初始化参数文件不包括CONTROL_FILES，那么Oracle数据库会在初始化参数文件同一个目录的控制文件，使用默认的操作系统有关的文件名。如果已经启用了OMF，数据库将会创建的Oracle管理的控制文件。
+
+	如果你想在数据库中创建数据库的控制文件时，在CONTROL_FILES参数中列出的文件名不是必须匹配当前系统中已经存在的文件名。如果你希望数据库重用或覆盖数据库的控制文件时，确保在CONTROL_FILES参数中列出的文件名和需要重复使用的文件名相同的，并包含在CREATE DATABASE语句的CONTROLFILE REUSE子句中。
+	
+	Oracle强烈建议您在每个数据库至少有两个控制文件，且存储在单独的磁盘上。
