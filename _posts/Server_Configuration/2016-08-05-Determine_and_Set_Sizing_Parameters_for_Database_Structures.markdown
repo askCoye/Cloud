@@ -68,7 +68,7 @@ categories: Server_Configuration
 
 
 
-2. Global Database Name
+3. Global Database Name
 
 	全局数据库名称（Global Database Name）由用户指定的本地数据库名称和数据库的网络结构中的位置的。该DB_NAME初始化参数决定数据库名称的本地名称部分，而DB_DOMAIN参数，它是可选的，表示网络结构中的域（逻辑位置）。对于这两个参数的设置的组合必须形成一个数据库名称是在网络内是唯一的。  
 		
@@ -80,9 +80,8 @@ categories: Server_Configuration
 
 		DB_DOMAIN is a text string that specifies the network domain where the database is created. If the database you are about to create will ever be part of a distributed database system, then give special attention to this initialization parameter before database creation. This parameter is optional.
 	
-    --
-
-		查看db_name和db_domain的值
+    查看db_name和db_domain的值
+		
 		SQL> show parameter db_name
 		NAME				     				TYPE	 VALUE
 		------------------------------------ ----------- ------------------------------
@@ -100,7 +99,7 @@ categories: Server_Configuration
 		GLOBAL_DB_NAME	     ORCL.ORACLE.COM
 
 
-3. 指定一个Fast Recovery Area
+4. 指定一个Fast Recovery Area
 
 	Fast Recovery Area是oracle DB存储并管理备份和恢复相关文件的位置。它与数据库中当前数据库文件（数据文件，控制文件和redo log）的位置不同。
 	
@@ -112,6 +111,40 @@ categories: Server_Configuration
 	在RAC环境中，这个位置必须在集群文件系统中，OracleASM磁盘组，或者通过NFS的共享目录
 
 		DB_RECOVERY_FILE_DEST_SIZE: Specifies the maximum total bytes to be used by the Fast Recovery Area. This initialization parameter must be specified before DB_RECOVERY_FILE_DEST is enabled. 
+	在RAC环境下面，所有实例下面的这两个参数的设置必须一样
+	如果为LOG_ARCHIVE_DEST和LOG_ARCHIVE_DUPLEX_DEST参数的设值，你不能启用这些参数。建立Fast Recovery Area之前，您必须禁用这些参数。您可以用LOG_ARCHIVE_DEST_n参数的值替代。如果本地存档位置尚未配置和LOG_ARCHIVE_DEST_1价值尚未设置则LOG_ARCHIVE_DEST_1参数被隐式设置指向快速恢复区。
+	Oracle建议使用快速恢复区，因为它可以简化备份和恢复操作的数据库。
+		
+		SQL> show parameter db_recovery
+		NAME				     				TYPE	 	VALUE
+		------------------------------------ ----------- ------------------------------
+		db_recovery_file_dest		    	 string	 		/u01/app/oracle/flash_recovery_area
+		db_recovery_file_dest_size	     	 big integer 	12G
+		
+		修改这些参数不需要重启实例
+		SQL> alter system set db_recovery_file_dest_size=5G scope=both;
+		System altered.
 
+		查看变化
+		SQL> show parameter db_recovery_file_dest_size
+		NAME				     				TYPE	 VALUE
+		------------------------------------ ----------- ------------------------------
+		db_recovery_file_dest_size	     	 big integer 5G
 		
-		
+		Oracle自动管理这个位置的使用情况
+		查看占用情况
+		SQL> SELECT * FROM V$FLASH_RECOVERY_AREA_USAGE;
+
+		FILE_TYPE	     	 PERCENT_SPACE_USED PERCENT_SPACE_RECLAIMABLE NUMBER_OF_FILES
+		-------------------- ------------------ ------------------------- ---------------
+		CONTROL FILE			      0 			0 							0
+		REDO LOG			     	  0 			0 							0
+		ARCHIVED LOG			      .69 		    .63							8
+		BACKUP PIECE			  	19.79 		   8.31 					   12
+		IMAGE COPY			      	  0 			0 							0
+		FLASHBACK LOG			     3.91 			0 							2
+		FOREIGN ARCHIVED LOG		  0 			0							0
+
+5. 指定控制文件
+	
+	参数CONTROL_FILES定义控制文件的位置
