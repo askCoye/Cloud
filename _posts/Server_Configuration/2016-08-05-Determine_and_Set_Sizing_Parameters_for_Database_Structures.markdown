@@ -154,3 +154,21 @@ categories: Server_Configuration
 	如果你想在数据库中创建数据库的控制文件时，在CONTROL_FILES参数中列出的文件名不是必须匹配当前系统中已经存在的文件名。如果你希望数据库重用或覆盖数据库的控制文件时，确保在CONTROL_FILES参数中列出的文件名和需要重复使用的文件名相同的，并包含在CREATE DATABASE语句的CONTROLFILE REUSE子句中。
 	
 	Oracle强烈建议您在每个数据库至少有两个控制文件，且存储在单独的磁盘上。
+		
+		查看控制文件
+		SQL> show parameter control_files
+		NAME				     				TYPE	 VALUE
+		------------------------------------ ----------- ------------------------------
+		control_files			     			string	 /u01/app/oracle/oradata/orcl/c
+								 						ontrol01.ctl, /u01/app/oracle/
+								 						oradata/orcl/control02.ctl
+
+		也可以通过视图V$CONTROLFILE查看
+		SQL> select * from V$CONTROLFILE;
+		STATUS	NAME					    				IS_RECOVERY_DEST_FILE BLOCK_SIZE FILE_SIZE_BLKS
+		------- ------------------------------------------- --- 				  ---------- --------------
+				/u01/app/oracle/oradata/orcl/control01.ctl  NO	     				16384			580
+				/u01/app/oracle/oradata/orcl/control02.ctl  NO	     				16384			580
+
+
+		
