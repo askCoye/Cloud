@@ -30,7 +30,7 @@ categories: Server_Configuration
 		SQL> show parameter db_recovery
 		NAME				     TYPE	 VALUE
 		------------------------------------ ----------- ------------------------------
-		db_recovery_file_dest		     string	 /u01/app/oracle/flash_recovery _area
+		db_recovery_file_dest		     string	 /u01/app/oracle/flash_recovery_area
 		db_recovery_file_dest_size	     big integer 12G
 
 		
@@ -38,35 +38,35 @@ categories: Server_Configuration
 		SQL> COL NAME FORMAT A35
 		SQL> COL VALUE FORMAT A40
 		SQL> SELECT NAME, VALUE FROM V$PARAMETER WHERE LOWER(NAME) LIKE '%db_recovery%';
-		NAME								VALUE
-		-----------------------------------	----------------------------------------
-		db_recovery_file_dest		    	/u01/app/oracle/flash_recovery_area
-		db_recovery_file_dest_size	    	12884901888
+		NAME				    VALUE
+		----------------------------------- ----------------------------------------
+		db_recovery_file_dest		    /u01/app/oracle/flash_recovery_area
+		db_recovery_file_dest_size	    5368709120
 		
 		查看启动实例使用的是SPFILE还是PFILE
 		可以查看SPFILE的位置，如果是通过PFILE启动的，则为空
 		SQL> show parameter spfile
-		NAME				     				TYPE	 	VALUE
+		NAME				     TYPE	 VALUE
 		------------------------------------ ----------- ------------------------------
-		spfile				     				string	 /u01/app/oracle/product/11.2.0
-								 						 /dbhome_1/dbs/spfileORCL.ora
+		spfile				     string	 /u01/app/oracle/product/11.2.0/dbhome_1/dbs/spfileORCL.ora
+
 		如果是用SPFILE启动的，可以用以下方式查询
 		SQL> show spparameters db_recovery
-		SID	 		NAME			       		TYPE	   VALUE
+		SID	 NAME			       TYPE	   VALUE
 		-------- ----------------------------- ----------- ----------------------------
-			*	 db_recovery_file_dest	       string	   /u01/app/oracle/flash_recovery_area
-			*	 db_recovery_file_dest_size    big integer 12G
+		*	 db_recovery_file_dest	       string	   /u01/app/oracle/flash_recovery_area
+		*	 db_recovery_file_dest_size    big integer 5G
+
 
 		此查询使用的是V$SPPARAMETER，因此可以将此查询改写为以下SQL
 		SQL> COL SID FORMAT A5
 		SQL> COL NAME FORMAT A30
 		SQL> SELECT SID,NAME, VALUE FROM V$SPPARAMETER WHERE LOWER(NAME) LIKE '%db_recovery%';
-		
-		SID   NAME			     				VALUE
+				
+		SID   NAME			     VALUE
 		----- ------------------------------ ----------------------------------------
-		*     db_recovery_file_dest	     		/u01/app/oracle/flash_recovery_area
-		*     db_recovery_file_dest_size     	12884901888
-
+		*     db_recovery_file_dest	     /u01/app/oracle/flash_recovery_area
+		*     db_recovery_file_dest_size     5368709120
 
 
 3. Global Database Name
@@ -84,20 +84,21 @@ categories: Server_Configuration
     查看db_name和db_domain的值
 		
 		SQL> show parameter db_name
-		NAME				     				TYPE	 VALUE
+		NAME				     TYPE	 VALUE
 		------------------------------------ ----------- ------------------------------
-		db_name 			     				string	 ORCL
+		db_name 			     string	 ORCL
 
 		SQL> show parameter db_domain		
-		NAME				     				TYPE	 VALUE
+		NAME				     TYPE	 VALUE
 		------------------------------------ ----------- ------------------------------
-		db_domain			     				string	 oracle.com
+		db_domain			     string	 oracle.com
 
 		GLOBAL_DB_NAME等于db_name.db_domain
+		SQL> COL PROPERTY_VALUE FORMAT A40
 		SQL> SELECT PROPERTY_NAME, PROPERTY_VALUE FROM DATABASE_PROPERTIES WHERE PROPERTY_NAME = 'GLOBAL_DB_NAME';
-		PROPERTY_NAME	     PROPERTY_VALUE
-		-------------------- ------------------------------
-		GLOBAL_DB_NAME	     ORCL.ORACLE.COM
+		PROPERTY_NAME		       PROPERTY_VALUE
+		------------------------------ ----------------------------------------
+		GLOBAL_DB_NAME		       ORCL.ORACLE.COM
 
 
 4. 指定一个Fast Recovery Area
@@ -117,10 +118,10 @@ categories: Server_Configuration
 	Oracle建议使用快速恢复区，因为它可以简化备份和恢复操作的数据库。
 		
 		SQL> show parameter db_recovery
-		NAME				     				TYPE	 	VALUE
+		NAME				     TYPE	 VALUE
 		------------------------------------ ----------- ------------------------------
-		db_recovery_file_dest		    	 string	 		/u01/app/oracle/flash_recovery_area
-		db_recovery_file_dest_size	     	 big integer 	12G
+		db_recovery_file_dest		     string	 /u01/app/oracle/flash_recovery_area
+		db_recovery_file_dest_size	     big integer 12G
 		
 		修改这些参数不需要重启实例
 		SQL> alter system set db_recovery_file_dest_size=5G scope=both;
@@ -128,9 +129,9 @@ categories: Server_Configuration
 
 		查看变化
 		SQL> show parameter db_recovery_file_dest_size
-		NAME				     				TYPE	 VALUE
+		NAME				     TYPE	 VALUE
 		------------------------------------ ----------- ------------------------------
-		db_recovery_file_dest_size	     	 big integer 5G
+		db_recovery_file_dest_size	     big integer 5G
 		
 		Oracle自动管理这个位置的使用情况
 		查看占用情况
@@ -138,13 +139,13 @@ categories: Server_Configuration
 
 		FILE_TYPE	     	 PERCENT_SPACE_USED PERCENT_SPACE_RECLAIMABLE NUMBER_OF_FILES
 		-------------------- ------------------ ------------------------- ---------------
-		CONTROL FILE			      0 			0 							0
-		REDO LOG			     	  0 			0 							0
-		ARCHIVED LOG			      .69 		    .63							8
-		BACKUP PIECE			  	19.79 		   8.31 					   12
-		IMAGE COPY			      	  0 			0 							0
-		FLASHBACK LOG			     3.91 			0 							2
-		FOREIGN ARCHIVED LOG		  0 			0							0
+		CONTROL FILE	0	0	0
+		REDO LOG	0	0	0
+		ARCHIVED LOG	0.69	0.63	8
+		BACKUP PIECE	19.79	8.31	12
+		IMAGE COPY	0	0	0
+		FLASHBACK LOG	3.91	0	2
+		FOREIGN ARCHIVED LOG	0	0	0
 
 5. 指定控制文件
 	
