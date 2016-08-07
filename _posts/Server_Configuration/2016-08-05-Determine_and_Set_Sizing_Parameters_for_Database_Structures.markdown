@@ -159,15 +159,14 @@ categories: Server_Configuration
 		
 		查看控制文件
 		SQL> show parameter control_files
-		NAME				     				TYPE	 VALUE
+		NAME				     TYPE	 VALUE
 		------------------------------------ ----------- ------------------------------
-		control_files			     			string	 /u01/app/oracle/oradata/orcl/c
-								 						ontrol01.ctl, /u01/app/oracle/
-								 						oradata/orcl/control02.ctl
+		control_files			     string	 /u01/app/oracle/oradata/orcl/control01.ctl, 
+								/u01/app/oracle/oradata/orcl/control02.ctl
 
 		也可以通过视图V$CONTROLFILE查看
 		SQL> select * from V$CONTROLFILE;
-		STATUS	NAME					    				IS_RECOVERY_DEST_FILE BLOCK_SIZE FILE_SIZE_BLKS
+		STATUS	NAME	IS_RECOVERY_DEST_FILE	BLOCK_SIZE	FILE_SIZE_BLKS
 		------- ------------------------------------------- --- 				  ---------- --------------
 				/u01/app/oracle/oradata/orcl/control01.ctl  NO	     				16384			580
 				/u01/app/oracle/oradata/orcl/control02.ctl  NO	     				16384			580
