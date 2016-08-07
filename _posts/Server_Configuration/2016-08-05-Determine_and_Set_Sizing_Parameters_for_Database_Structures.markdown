@@ -251,4 +251,40 @@ categories: Server_Configuration
 
 
 		5. 删除新的控制文件
+		SQL> shutdown immediate   
+		Database closed.
+		Database dismounted.
+		ORACLE instance shut down.
+		SQL> startup nomount
+		ORACLE instance started.
+		
+		Total System Global Area  417546240 bytes
+		Fixed Size		    2228944 bytes
+		Variable Size		  318770480 bytes
+		Database Buffers	   92274688 bytes
+		Redo Buffers		    4272128 bytes
+		SQL> alter system set control_files='/u01/app/oracle/oradata/orcl/control01.ctl','/u01/app/oracle/oradata/orcl/control02.ctl' scope=spfile;
+		
+		System altered.
+
 		6. 重启数据库
+		SQL> shutdown immediate
+		ORA-01507: database not mounted
+		
+		
+		ORACLE instance shut down.
+		SQL> startup
+		ORACLE instance started.
+		
+		Total System Global Area  417546240 bytes
+		Fixed Size		    2228944 bytes
+		Variable Size		  318770480 bytes
+		Database Buffers	   92274688 bytes
+		Redo Buffers		    4272128 bytes
+		Database mounted.
+		Database opened.
+		SQL> show parameter control_files;
+		
+		NAME				     TYPE	 VALUE
+		------------------------------------ ----------- ------------------------------
+		control_files			     string	 /u01/app/oracle/oradata/orcl/control01.ctl, /u01/app/oracle/oradata/orcl/control02.ctl
