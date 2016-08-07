@@ -28,10 +28,11 @@ categories: Server_Configuration
 		
 		查看指定的参数
 		SQL> show parameter db_recovery
-		NAME									TYPE		VALUE
-		------------------------------------	-----------	------------------------------
-		db_recovery_file_dest		     		string	 	/u01/app/oracle/flash_recovery_area
-		db_recovery_file_dest_size	     		big integer 12G
+		NAME				     TYPE	 VALUE
+		------------------------------------ ----------- ------------------------------
+		db_recovery_file_dest		     string	 /u01/app/oracle/flash_recovery _area
+		db_recovery_file_dest_size	     big integer 12G
+
 		
 		这个命令等同于以下查询
 		SQL> COL NAME FORMAT A35
