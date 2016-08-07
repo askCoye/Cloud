@@ -28,7 +28,7 @@ categories: Server_Configuration
 		
 		查看指定的参数
 		SQL> show parameter db_recovery
-		NAME				     				TYPE	 	VALUE
+		NAME	TYPE	VALUE
 		------------------------------------ ----------- ------------------------------
 		db_recovery_file_dest		     		string	 	/u01/app/oracle/flash_recovery_area
 		db_recovery_file_dest_size	     		big integer 12G
@@ -37,7 +37,7 @@ categories: Server_Configuration
 		SQL> COL NAME FORMAT A35
 		SQL> COL VALUE FORMAT A40
 		SQL> SELECT NAME, VALUE FROM V$PARAMETER WHERE LOWER(NAME) LIKE '%db_recovery%';
-		NAME				    			VALUE
+		NAME	VALUE
 		----------------------------------- ----------------------------------------
 		db_recovery_file_dest		    	/u01/app/oracle/flash_recovery_area
 		db_recovery_file_dest_size	    	12884901888
@@ -170,5 +170,83 @@ categories: Server_Configuration
 				/u01/app/oracle/oradata/orcl/control01.ctl  NO	     				16384			580
 				/u01/app/oracle/oradata/orcl/control02.ctl  NO	     				16384			580
 
-
+		增加一个控制文件的镜像
+		1. 关闭数据库
+		SQL> shutdown immediate
+		Database closed.
+		Database dismounted.
+		ORACLE instance shut down.
+		2. 将控制文件拷贝到一个新的位置
+		[oracle@oracle ~]$ cp /u01/app/oracle/oradata/orcl/control01.ctl /u01/control03.ctl
+		3. 将数据库启动到 NOMOUNT 状态，然后修改参数 control_files
+		SQL> startup nomount;
+		ORACLE instance started.
 		
+		Total System Global Area  417546240 bytes
+		Fixed Size		    2228944 bytes
+		Variable Size		  327159088 bytes
+		Database Buffers	   83886080 bytes
+		Redo Buffers		    4272128 bytes
+		SQL> ALTER SYSTEM SET CONTROL_FILES='/u01/app/oracle/oradata/orcl/control01.ctl','/u01/app/oracle/oradata/orcl/control02.ctl','/u01/control03.ctl' SCOPE=SPFILE;
+		
+		System altered.
+
+		4. 启动数据库，然后查看变化
+		SQL> alter database mount; 
+
+		Database altered.
+		
+		SQL> alter database open;
+		
+		Database altered.
+		
+		SQL> show parameter control_files;
+		
+		NAME				     TYPE	 VALUE
+		------------------------------------ ----------- ------------------------------
+		control_files			     string	 /u01/app/oracle/oradata/orcl/c
+								 ontrol01.ctl, /u01/app/oracle/
+								 oradata/orcl/control02.ctl
+		立即启动以后，没有任何变化，重启数据库，重新读取参数文件
+		SQL> shutdown immediate
+		Database closed.
+		Database dismounted.
+		ORACLE instance shut down.
+		
+		再次重启，发现两处的控制文件已经不一致了，无法启动
+		SQL> STARTUP
+		ORACLE instance started.
+		
+		Total System Global Area  417546240 bytes
+		Fixed Size		    2228944 bytes
+		Variable Size		  327159088 bytes
+		Database Buffers	   83886080 bytes
+		Redo Buffers		    4272128 bytes
+		ORA-00214: control file '/u01/app/oracle/oradata/orcl/control01.ctl' version
+		1125 inconsistent with file '/u01/control03.ctl' version 1105
+		
+		SQL> shutdown immediate
+		ORA-01507: database not mounted
+		
+		
+		ORACLE instance shut down.
+		关闭数据库后，重新拷贝控制文件，再次打开
+		SQL> startup 
+		ORACLE instance started.
+		
+		Total System Global Area  417546240 bytes
+		Fixed Size		    2228944 bytes
+		Variable Size		  327159088 bytes
+		Database Buffers	   83886080 bytes
+		Redo Buffers		    4272128 bytes
+		Database mounted.
+		Database opened.
+		SQL> show parameter control_files;
+		
+		NAME				     TYPE	 VALUE
+		------------------------------------ ----------- ------------------------------
+		control_files			     string	 /u01/app/oracle/oradata/orcl/control01.ctl, 
+								 /u01/app/oracle/oradata/orcl/control02.ctl, /u01/control03.ctl
+
+		5. 删除新的控制文件
+		6. 重启数据库
