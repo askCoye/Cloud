@@ -207,9 +207,7 @@ categories: Server_Configuration
 		SQL> show parameter control_files;
 		NAME				     TYPE	 VALUE
 		------------------------------------ ----------- ------------------------------
-		control_files			     string	 /u01/app/oracle/oradata/orcl/c
-								 ontrol01.ctl, /u01/app/oracle/
-								 oradata/orcl/control02.ctl, 
+		control_files			     string	 /u01/app/oracle/oradata/orcl/control01.ctl, /u01/app/oracle/oradata/orcl/control02.ctl
 
 		立即启动以后，没有任何变化，重启数据库，重新读取参数文件
 		SQL> shutdown immediate
@@ -248,10 +246,8 @@ categories: Server_Configuration
 		SQL> show parameter control_files;
 		NAME				     TYPE	 VALUE
 		------------------------------------ ----------- ------------------------------
-		control_files			     string	 /u01/app/oracle/oradata/orcl/c
-								 ontrol01.ctl, /u01/app/oracle/
-								 oradata/orcl/control02.ctl, /u
-								 01/control03.ctl
+		control_files			     string	 /u01/app/oracle/oradata/orcl/control01.ctl, /u01/app/oracle/
+								 				oradata/orcl/control02.ctl, /u01/control03.ctl
 
 
 		5. 删除新的控制文件
