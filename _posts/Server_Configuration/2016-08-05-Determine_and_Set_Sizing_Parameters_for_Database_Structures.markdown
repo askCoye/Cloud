@@ -139,13 +139,13 @@ categories: Server_Configuration
 
 		FILE_TYPE	     	 PERCENT_SPACE_USED PERCENT_SPACE_RECLAIMABLE NUMBER_OF_FILES
 		-------------------- ------------------ ------------------------- ---------------
-		CONTROL FILE	0	0	0
-		REDO LOG	0	0	0
-		ARCHIVED LOG	0.69	0.63	8
-		BACKUP PIECE	19.79	8.31	12
-		IMAGE COPY	0	0	0
-		FLASHBACK LOG	3.91	0	2
-		FOREIGN ARCHIVED LOG	0	0	0
+		CONTROL FILE		0		0		0
+		REDO LOG		0		0		0
+		ARCHIVED LOG		0.69		0.63		8
+		BACKUP PIECE		19.79		8.31		12
+		IMAGE COPY		0		0		0
+		FLASHBACK LOG		3.91		0		2
+		FOREIGN ARCHIVED LOG		0		0		0
 
 5. 指定控制文件
 	
