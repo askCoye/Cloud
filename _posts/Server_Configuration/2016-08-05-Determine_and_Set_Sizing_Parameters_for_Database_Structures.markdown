@@ -28,8 +28,8 @@ categories: Server_Configuration
 		
 		查看指定的参数
 		SQL> show parameter db_recovery
-		NAME	TYPE	VALUE
-		------------------------------------ ----------- ------------------------------
+		NAME									TYPE		VALUE
+		------------------------------------	-----------	------------------------------
 		db_recovery_file_dest		     		string	 	/u01/app/oracle/flash_recovery_area
 		db_recovery_file_dest_size	     		big integer 12G
 		
@@ -37,8 +37,8 @@ categories: Server_Configuration
 		SQL> COL NAME FORMAT A35
 		SQL> COL VALUE FORMAT A40
 		SQL> SELECT NAME, VALUE FROM V$PARAMETER WHERE LOWER(NAME) LIKE '%db_recovery%';
-		NAME	VALUE
-		----------------------------------- ----------------------------------------
+		NAME								VALUE
+		-----------------------------------	----------------------------------------
 		db_recovery_file_dest		    	/u01/app/oracle/flash_recovery_area
 		db_recovery_file_dest_size	    	12884901888
 		
