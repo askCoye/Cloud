@@ -288,3 +288,144 @@ categories: Server_Configuration
 		NAME				     TYPE	 VALUE
 		------------------------------------ ----------- ------------------------------
 		control_files			     string	 /u01/app/oracle/oradata/orcl/control01.ctl, /u01/app/oracle/oradata/orcl/control02.ctl
+
+6. 数据库块大小
+
+	DB_BLOCK_SIZE 初始化参数指定数据库的标准的块大小。是系统表空间和其他表空间的默认值。Oracle 数据库可以支持最多四个额外的非标准块大小。
+
+	最常用的块大小应该选为标准的块大小。在许多情况下，这是你必须指定唯一的块大小。通常情况下，DB_BLOCK_SIZE 设置为 4k 或 8k。如果不设置此参数的值，然后默认数据块大小是操作系统指定，大体上已足够。
+
+	创建数据库后不能更改的块大小，除了通过重新创建数据库。如果数据库块大小的不同操作系统块大小，那就要确保数据库块大小是操作系统块大小的倍数。例如，如果您的操作系统的块大小是 2 K （2048 字节），DB_BLOCK_SIZE 初始化参数可以设置为 4096.
+		
+		查看 DB_BLOCK_SIZE 的值
+		SQL> show parameter db_block_size
+		NAME				     TYPE	 VALUE
+		------------------------------------ ----------- ------------------------------
+		db_block_size			     integer	 8192
+		
+		使用不同的块大小创建表空间，可以用于：
+		1. 在不同块大小的数据库之前传输表空间
+		2. 可以用于数据仓库的事实表
+		
+		1. 创建16K的 CACHE BUFFER
+		SQL> show parameter DB_16
+		NAME				     TYPE	 VALUE
+		------------------------------------ ----------- ------------------------------
+		db_16k_cache_size		     big integer 0
+		SQL> alter system set db_16k_cache_size=50M scope=both;
+
+		System altered.
+		
+		SQL> show parameter db_16			
+		NAME				     TYPE	 VALUE
+		------------------------------------ ----------- ------------------------------
+		db_16k_cache_size		     big integer 52M
+		额。。。。为什么会变成52M。。。
+		2. 创建一个测试数据仓库用的表空间，
+		用52M创建成功了
+		SQL>CREATE TABLESPACE TESTDW DATAFILE '/u01/app/oracle/oradata/orcl/testdw01.dbf' SIZE 52M BLOCKSIZE 16K;
+
+		Tablespace created.
+
+		SQL> SELECT TABLESPACE_NAME, BLOCK_SIZE FROM DBA_TABLESPACES;
+		TABLESPACE_NAME 	       BLOCK_SIZE
+		------------------------------ ----------
+		SYSTEM				     8192
+		SYSAUX				     8192
+		UNDOTBS1			     8192
+		TEMPTS1 			     8192
+		USERS				     8192
+		EXAMPLE 			     8192
+		TESTDW				    16384
+		3. 删除测试表空间
+		SQL> drop tablespace TESTDW including contents and datafiles;
+		drop tablespace TESTDW including contents and datafiles
+		*
+		ERROR at line 1:
+		ORA-38881: Cannot drop tablespace TESTDW on primary database due to guaranteed
+		restore points.
+		
+		涉及到可靠还原点，需要先删除restore point才能删除表空间
+		Database: 11g Release 2
+		Error code: ORA-38881
+		Description: Cannot drop tablespace string on primary database due to guaranteed restore points.
+		Cause: An attempt was made to drop a tablespace on a primary database while there are guaranteed restore points. You cannot do this because Flashback database cannot undo dropping of a tablespace.
+		Action: Drop all guaranteed restore points first and retry, or delay dropping the tablespace until all guaranteed restore points are removed.
+
+		SQL> SELECT NAME, SCN, TIME, DATABASE_INCARNATION#,GUARANTEE_FLASHBACK_DATABASE,STORAGE_SIZE FROM V$RESTORE_POINT; 
+		NAME
+		--------------------------------------------------------------------------------
+		       SCN
+		----------
+		TIME
+		---------------------------------------------------------------------------
+		DATABASE_INCARNATION# GUA STORAGE_SIZE
+		--------------------- --- ------------
+		BEFORE_TRUNCATE
+		    436709
+		24-MAR-16 06.52.25.000000000 AM
+				    2 YES    314572800
+		
+		SQL> drop restore point BEFORE_TRUNCATE;
+		Restore point dropped.
+		
+		SQL> DROP TABLESPACE TESTDW INCLUDING CONTENTS AND DATAFILES;
+		Tablespace dropped.
+		
+		恢复初始化参数
+		SQL> alter system set db_16k_cache_size=0 scope=both;
+		System altered.
+		
+		或者
+		SQL> alter system set db_16k_cache_size=0 scope=memory;
+		System altered.
+
+		SQL> alter system reset db_16k_cache_size scope=spfile;
+		System altered.
+
+7. PROCESSES
+	 1. PROCESSES决定当前Oracle数据库可以连接的最大用户数。
+	 2. 这个参数的值必须是至少每个后台进程算一个，再加上用户进程的数量
+	 3. 后台进程是数量根据数据库的功能变化
+	 
+	 DBCA创建数据库的时候，默认是150
+		
+		查看当前进程数量
+		SQL> show parameter processes
+		NAME				     TYPE	 VALUE
+		------------------------------------ ----------- ------------------------------
+		aq_tm_processes 		     integer	 1
+		db_writer_processes		     integer	 1
+		gcs_server_processes		     integer	 0
+		global_txn_processes		     integer	 1
+		job_queue_processes		     integer	 1000
+		log_archive_max_processes	     integer	 4
+		processes			     integer	 150
+		
+		将进程数量调整到200
+		SQL> alter system set processes=200 scope=spfile;
+		System altered.
+		重启后生效，查看值
+		SQL> startup force
+		ORACLE instance started.
+		
+		Total System Global Area  417546240 bytes
+		Fixed Size		    2228944 bytes
+		Variable Size		  310381872 bytes
+		Database Buffers	  100663296 bytes
+		Redo Buffers		    4272128 bytes
+		Database mounted.
+		Database opened.
+		SQL> show parameter processes
+		NAME				     TYPE	 VALUE
+		------------------------------------ ----------- ------------------------------
+		aq_tm_processes 		     integer	 1
+		db_writer_processes		     integer	 1
+		gcs_server_processes		     integer	 0
+		global_txn_processes		     integer	 1
+		job_queue_processes		     integer	 1000
+		log_archive_max_processes	     integer	 4
+		processes			     integer	 200
+
+		
+8. DDL Lock Timeout
