@@ -77,8 +77,7 @@ categories: Other
 
 2. 以脚本的形式使用ADRCI
 
-调用的时候，需要使用下面的语法，每条命令用分号隔开。
-
+		调用的时候，需要使用下面的语法，每条命令用分号隔开。
 		[oracle@OracleDataV ~]$ adrci exec="show homes;show incident"
 		ADR Homes: 
 		diag/clients/user_oracle/host_3860396830_80
@@ -109,6 +108,7 @@ categories: Other
 		
 		[oracle@OracleDataV ~]$ adrci
 
+
 3. 设置adrci的主目录
 
 		adrci> show base
@@ -128,7 +128,7 @@ categories: Other
 
 4. 查看alertlog
 
-选择对应的ADR HOME
+		选择对应的ADR HOME
 
 		adrci> show alert
 		
