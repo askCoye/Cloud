@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Mantain Recovery Catalogs"
+title:  "1 Mantain Recovery Catalogs"
 date:   2016-08-17 10:48:57 +0000
 comments: true
 categories: Managing_Database_Availability

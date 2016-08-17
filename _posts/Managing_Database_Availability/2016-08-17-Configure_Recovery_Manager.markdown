@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Configure Recovery Manager"
+title:  "2 Configure Recovery Manager"
 date:   2016-08-17 12:48:57 +0000
 comments: true
 categories: Managing_Database_Availability
