@@ -6,7 +6,6 @@ comments: true
 categories: Server_Configuration
 ---
 
-## 1 Create the Database ##
 oracle 官方文档 -> Oracle Database Administrator's Guide -> Creating and Configuring an Oracle Database ->[ Creating a Database with the CREATE DATABASE Statement](http://docs.oracle.com/cd/E11882_01/server.112/e25494/create.htm#ADMIN11074)
 
 1. 登录Oracle用户

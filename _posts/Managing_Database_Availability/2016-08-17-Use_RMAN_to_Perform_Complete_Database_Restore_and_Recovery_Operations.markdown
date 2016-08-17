@@ -6,7 +6,6 @@ comments: true
 categories: Managing_Database_Availability
 ---
 
-# 4 Use RMAN to Perform Complete Database Restore and Recovery Operations #
 
 1. 官方文档 -> Masters Book List -> Backup and Recovery User’s Guide -> [17 Performing Complete Database Recovery](http://docs.oracle.com/cd/E11882_01/backup.112/e10642/rcmcomre.htm#BRADV8005)
 
