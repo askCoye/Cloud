@@ -1,12 +1,12 @@
 ---
 layout: post
-title:  "Create the Database"
+title:  "1 Create the Database"
 date:   2016-07-25 07:48:57 +0000
 comments: true
 categories: Server_Configuration
 ---
 
-## 通过命令创建/删除数据库 ##
+## 1 Create the Database ##
 oracle 官方文档 -> Oracle Database Administrator's Guide -> Creating and Configuring an Oracle Database ->[ Creating a Database with the CREATE DATABASE Statement](http://docs.oracle.com/cd/E11882_01/server.112/e25494/create.htm#ADMIN11074)
 
 1. 登录Oracle用户
