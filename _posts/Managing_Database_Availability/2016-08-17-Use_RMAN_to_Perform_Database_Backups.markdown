@@ -1,12 +1,12 @@
 ---
 layout: post
-title:  "3 Use Recovery Manager to Perform Database Backups"
+title:  "3 Use RMAN to Perform Database Backups"
 date:   2016-08-17 15:48:57 +0000
 comments: true
 categories: Managing_Database_Availability
 ---
 
-# 3 Use Recovery Manager to Perform Database Backups  #
+# 3 Use RMAN to Perform Database Backups  #
 
 1. 官方文档 -> Masters Book List -> Backup and Recovery User’s Guide -> [9 Backing Up the Database](http://docs.oracle.com/cd/E11882_01/backup.112/e10642/rcmbckba.htm#BRADV8003)
 2. 完整的备份与归档日志
