@@ -6,7 +6,7 @@ comments: true
 categories: Managing_Database_Availability
 ---
 
-# Mantain Recovery Catalogs  #
+# 1 Mantain Recovery Catalogs  #
 
 1. 官方文档 -> Masters Book List -> Backup and Recovery User's Guide -> 13 [Managing a Recovery Catalog](http://docs.oracle.com/cd/E11882_01/backup.112/e10642/rcmcatdb.htm#i1011365)
 
