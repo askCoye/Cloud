@@ -1,0 +1,315 @@
+---
+layout: post
+title:  "ADRCI"
+date:   2016-08-17 10:48:57 +0000
+comments: true
+categories: Other
+---
+
+# ADRCI #
+
+在oracle11g中，Oracle 提供了一个叫 adrci（Automatic Diagnostic Repository Command Interpreter） 的命令行工具，说白了就是看ADR中的日志的
+
+1. 用Oracle 用户登录后，输入adrci
+
+		[root@OracleDataV ~]# su - oracle
+		
+		[oracle@OracleDataV ~]$ adrci
+		
+		ADRCI: Release 11.2.0.4.0 - Production on Thu Jul 7 11:28:23 2016
+		
+		Copyright (c) 1982, 2011, Oracle and/or its affiliates.  All rights reserved.
+		
+		ADR base = "/u01/app/oracle"
+		
+		adrci> 
+		
+		帮助
+		
+		[oracle@OracleDataV ~]$ adrci -help
+		
+		Syntax:
+		adrci [-help] [script=script_filename]
+		[exec = "one_command [;one_command;...]"]
+		
+		
+		Options      Description                     (Default)
+		-----------------------------------------------------------------
+		script       script file name                (None)
+		help         help on the command options     (None)
+		exec         exec a set of commands          (None)
+		-----------------------------------------------------------------
+		[oracle@OracleDataV ~]$
+		
+		adrci> help
+		
+		 HELP [topic]
+		   Available Topics:
+		        CREATE REPORT
+		        ECHO
+		        EXIT
+		        HELP
+		        HOST
+		        IPS
+		        PURGE
+		        RUN
+		        SET BASE
+		        SET BROWSER
+		        SET CONTROL
+		        SET ECHO
+		        SET EDITOR
+		        SET HOMES | HOME | HOMEPATH
+		        SET TERMOUT
+		        SHOW ALERT
+		        SHOW BASE
+		        SHOW CONTROL
+		        SHOW HM_RUN
+		        SHOW HOMES | HOME | HOMEPATH
+		        SHOW INCDIR
+		        SHOW INCIDENT
+		        SHOW PROBLEM
+		        SHOW REPORT
+		        SHOW TRACEFILE
+		        SPOOL
+		
+		 There are other commands intended to be used directly by Oracle, type
+		 "HELP EXTENDED" to see the list
+
+2. 以脚本的形式使用ADRCI
+
+调用的时候，需要使用下面的语法，每条命令用分号隔开。
+
+		[oracle@OracleDataV ~]$ adrci exec="show homes;show incident"
+		ADR Homes: 
+		diag/clients/user_oracle/host_3860396830_80
+		diag/tnslsnr/OracleDataV/listener
+		diag/rdbms/metadata/metadata
+		diag/rdbms/sudadata/sudadata
+		
+		ADR Home = /u01/app/oracle/diag/clients/user_oracle/host_3860396830_80:
+		*************************************************************************
+		0 rows fetched
+		
+		ADR Home = /u01/app/oracle/diag/tnslsnr/OracleDataV/listener:
+		*************************************************************************
+		0 rows fetched
+		
+		ADR Home = /u01/app/oracle/diag/rdbms/metadata/metadata:
+		*************************************************************************
+		INCIDENT_ID          PROBLEM_KEY                                                 CREATE_TIME                              
+		-------------------- ----------------------------------------------------------- ---------------------------------------- 
+		25905                ORA 445                                                     2016-02-25 14:13:00.860000 +08:00       
+		
+		ADR Home = /u01/app/oracle/diag/rdbms/sudadata/sudadata:
+		*************************************************************************
+		INCIDENT_ID          PROBLEM_KEY                                                 CREATE_TIME                              
+		-------------------- ----------------------------------------------------------- ---------------------------------------- 
+		12273                ORA 3137 [1010]                                             2016-03-01 19:59:18.310000 +08:00       
+		1 rows fetched
+		
+		[oracle@OracleDataV ~]$ adrci
+
+3. 设置adrci的主目录
+
+		adrci> show base
+		ADR base is "/u01/app/oracle"
+		adrci> show home
+		ADR Homes: 
+		diag/clients/user_oracle/host_3860396830_80
+		diag/tnslsnr/OracleDataV/listener
+		diag/rdbms/metadata/metadata
+		diag/rdbms/sudadata/sudadata
+		adrci> show homepath
+		ADR Homes: 
+		diag/clients/user_oracle/host_3860396830_80
+		diag/tnslsnr/OracleDataV/listener
+		diag/rdbms/metadata/metadata
+		diag/rdbms/sudadata/sudadata
+
+4. 查看alertlog
+
+选择对应的ADR HOME
+
+		adrci> show alert
+		
+		Choose the alert log from the following homes to view:
+		
+		1: diag/clients/user_oracle/host_3860396830_80
+		2: diag/tnslsnr/OracleDataV/listener
+		3: diag/rdbms/metadata/metadata
+		4: diag/rdbms/sudadata/sudadata
+		Q: to quit
+		
+		Please select option: 3
+		
+		Output the results to file: /tmp/alert_14012_1405_metadata_1.ado
+		
+		2015-11-09 16:38:17.297000 +08:00
+		Starting ORACLE instance (normal)
+		LICENSE_MAX_SESSION = 0
+		LICENSE_SESSIONS_WARNING = 0
+		Initial number of CPU is 12
+		Number of processor cores in the system is 12
+		Number of processor sockets in the system is 2
+		Shared memory segment for instance monitoring created
+		CELL communication is configured to use 0 interface(s):
+		CELL IP affinity details:
+		    NUMA status: NUMA system w/ 2 process groups
+		    cellaffinity.ora status: cannot find affinity map at '/etc/oracle/cell/network-config/cellaffinity.ora' (see trace file for details)
+		CELL communication will use 1 IP group(s):
+		    Grp 0:
+		Picked latch-free SCN scheme 3
+		Using LOG_ARCHIVE_DEST_1 parameter default value as USE_DB_RECOVERY_FILE_DEST
+		Autotune of undo retention is turned on.
+		IMODE=BR
+		ILAT =134
+		LICENSE_MAX_USERS = 0
+		SYS auditing is disabled
+		NUMA system with 2 nodes detected
+		Starting up:
+		Oracle Database 11g Enterprise Edition Release 11.2.0.4.0 - 64bit Production
+		With the Partitioning, OLAP, Data Mining and Real Application Testing options.
+		ORACLE_HOME = /u01/app/oracle/product/11.2.0/dbhome_1
+		System name:Linux
+		Node name:OracleDataV
+		Release:3.8.13-68.3.4.el6uek.x86_64
+		Version:#2 SMP Tue Jul 14 15:03:36 PDT 2015
+		adrci中的tail
+		
+		先手动设置homepath，然后show alert -tail XXXX即可
+		
+		adrci> set homepath diag/rdbms/metadata/metadata
+		adrci> show alert -tail 10
+		2016-07-06 19:51:01.281000 +08:00
+		  Current log# 3 seq# 1404 mem# 0: /u01/app/oracle/oradata/metadata/redo03.log
+		Archived Log entry 1399 added for thread 1 sequence 1403 ID 0x4bb042ed dest 1:
+		2016-07-07 00:09:46.485000 +08:00
+		Thread 1 advanced to log sequence 1405 (LGWR switch)
+		  Current log# 1 seq# 1405 mem# 0: /u01/app/oracle/oradata/metadata/redo01.log
+		2016-07-07 00:09:47.787000 +08:00
+		Archived Log entry 1400 added for thread 1 sequence 1404 ID 0x4bb042ed dest 1:
+		2016-07-07 03:14:10.864000 +08:00
+		Thread 1 advanced to log sequence 1406 (LGWR switch)
+		  Current log# 2 seq# 1406 mem# 0: /u01/app/oracle/oradata/metadata/redo02.log
+		2016-07-07 03:14:12.733000 +08:00
+		Archived Log entry 1401 added for thread 1 sequence 1405 ID 0x4bb042ed dest 1:
+		2016-07-07 07:33:38.072000 +08:00
+		Thread 1 advanced to log sequence 1407 (LGWR switch)
+		  Current log# 3 seq# 1407 mem# 0: /u01/app/oracle/oradata/metadata/redo03.log
+		2016-07-07 07:33:39.366000 +08:00
+		Archived Log entry 1402 added for thread 1 sequence 1406 ID 0x4bb042ed dest 1:
+		2016-07-07 10:18:35.165000 +08:00
+		Thread 1 advanced to log sequence 1408 (LGWR switch)
+		  Current log# 1 seq# 1408 mem# 0: /u01/app/oracle/oradata/metadata/redo01.log
+		Archived Log entry 1403 added for thread 1 sequence 1407 ID 0x4bb042ed dest 1:
+		adrci> 
+		
+		show alert -tail -f 和 在linux下面的tail -f alertlog是一样一样的
+		
+		adrci> show alert -tail -f 
+		2016-07-06 19:51:01.281000 +08:00
+		  Current log# 3 seq# 1404 mem# 0: /u01/app/oracle/oradata/metadata/redo03.log
+		Archived Log entry 1399 added for thread 1 sequence 1403 ID 0x4bb042ed dest 1:
+		2016-07-07 00:09:46.485000 +08:00
+		Thread 1 advanced to log sequence 1405 (LGWR switch)
+		  Current log# 1 seq# 1405 mem# 0: /u01/app/oracle/oradata/metadata/redo01.log
+		2016-07-07 00:09:47.787000 +08:00
+		Archived Log entry 1400 added for thread 1 sequence 1404 ID 0x4bb042ed dest 1:
+		2016-07-07 03:14:10.864000 +08:00
+		Thread 1 advanced to log sequence 1406 (LGWR switch)
+		  Current log# 2 seq# 1406 mem# 0: /u01/app/oracle/oradata/metadata/redo02.log
+		2016-07-07 03:14:12.733000 +08:00
+		Archived Log entry 1401 added for thread 1 sequence 1405 ID 0x4bb042ed dest 1:
+		2016-07-07 07:33:38.072000 +08:00
+		Thread 1 advanced to log sequence 1407 (LGWR switch)
+		  Current log# 3 seq# 1407 mem# 0: /u01/app/oracle/oradata/metadata/redo03.log
+		2016-07-07 07:33:39.366000 +08:00
+		Archived Log entry 1402 added for thread 1 sequence 1406 ID 0x4bb042ed dest 1:
+		2016-07-07 10:18:35.165000 +08:00
+		Thread 1 advanced to log sequence 1408 (LGWR switch)
+		  Current log# 1 seq# 1408 mem# 0: /u01/app/oracle/oradata/metadata/redo01.log
+		Archived Log entry 1403 added for thread 1 sequence 1407 ID 0x4bb042ed dest 1:
+		
+		show alert -p "MESSAGE_TEXT like '%ORA-%'"   (显示alert中的ORA报错。详见 help show alert)
+
+5. 查看跟踪文件
+
+		adrci> show tracefile
+		     diag/rdbms/metadata/metadata/trace/alert_metadata.log
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_23420.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_27035.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_19926.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_13921.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_lgwr_13282.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_8140.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_11428.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_5931.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_arc2_13322.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_30492.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_22087.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_4795.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_884.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_14573.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_32268.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_17371.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_18773.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_12437.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_28989.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_mmon_13290.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_16115.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_25202.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_15924.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_arc3_13324.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_17417.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_22400.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_23030.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_29477.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_30781.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_5433.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_31113.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_6329.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_3312.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_8562.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_13499.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_arc0_13318.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_m000_1319.trc
+		     diag/rdbms/metadata/metadata/trace/metadata_ckpt_13284.trc
+		     diag/rdbms/metadata/metadata/incident/incdir_25905/metadata_smco_13122_i25905.trc
+
+6. 查看控制文件
+
+		adrci> show control
+		
+		ADR Home = /u01/app/oracle/diag/rdbms/metadata/metadata:
+		*************************************************************************
+		ADRID                SHORTP_POLICY        LONGP_POLICY         LAST_MOD_TIME                            LAST_AUTOPRG_TIME                        LAST_MANUPRG_TIME                        ADRDIR_VERSION       ADRSCHM_VERSION      ADRSCHMV_SUMMARY     ADRALERT_VERSION     CREATE_TIME                              
+		-------------------- -------------------- -------------------- ---------------------------------------- ---------------------------------------- ---------------------------------------- -------------------- -------------------- -------------------- -------------------- ---------------------------------------- 
+		1636566892           720                  8760                 2015-11-09 16:38:14.073783 +08:00        2016-07-06 11:47:29.820194 +08:00                                                 1                    2                    80                   1                    2015-11-09 16:38:14.073783 +08:00       
+		1 rows fetched
+		
+		adrci> 
+
+
+7. 查看incident和proble
+
+		adrci> show incident
+		
+		ADR Home = /u01/app/oracle/diag/rdbms/metadata/metadata:
+		*************************************************************************
+		INCIDENT_ID          PROBLEM_KEY                                                 CREATE_TIME                              
+		-------------------- ----------------------------------------------------------- ---------------------------------------- 
+		25905                ORA 445                                                     2016-02-25 14:13:00.860000 +08:00       
+		1 rows fetched
+		
+		adrci> show problem 
+		
+		ADR Home = /u01/app/oracle/diag/rdbms/metadata/metadata:
+		*************************************************************************
+		PROBLEM_ID           PROBLEM_KEY                                                 LAST_INCIDENT        LASTINC_TIME                             
+		-------------------- ----------------------------------------------------------- -------------------- ---------------------------------------- 
+		1                    ORA 445                                                     25905                2016-02-25 14:13:00.860000 +08:00       
+		1 rows fetched
+		
+		adrci> 
+
+8. 打包功能后续补上
