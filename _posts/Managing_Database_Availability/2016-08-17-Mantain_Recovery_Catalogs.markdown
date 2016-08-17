@@ -74,13 +74,16 @@ categories: Managing_Database_Availability
 
 
 5. 创建恢复目录（Recovery Catalog）.
+
 		--创建恢复目录所需的表空间
 		CREATE  TABLESPACE RCAT DATAFILE '/u01/app/oracle/oradata/ocm/rcat.dbf'
 		SIZE 100M AUTOEXTEND ON NEXT 1M MAXSIZE 1G EXTENT MANAGEMENT LOCAL UNIFORM SIZE 1M;
+
 		--创建恢复目录的所有者，以及赋予相应权限
 		CREATE  USER  rman Identified BY  RMAN DEFAULT  TABLESPACE RCAT TEMPORARY  TABLESPACE TEMP ;
 		ALTER  USER  rman QUOTA UNLIMITED ON  RCAT;
 		Grant  RECOVERY_CATALOG_OWNER TO  rman;
+
 		--连接RMAN 的catalog 并创建catalog
 		[oracle@ocm ocm]$ rman catalog rman/rman@OCM
 	
